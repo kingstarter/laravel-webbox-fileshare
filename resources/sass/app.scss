@@ -1,0 +1,20 @@
+// Fontawesome
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+@import '~@fortawesome/fontawesome-free/scss/solid';
+// @import '~@fortawesome/fontawesome-free/scss/regular';
+
+// Dropzone.js
+@import '~vue2-dropzone/dist/vue2Dropzone.min.css';
+
+// TailwindCSS
+@import './tailwind.css';
+
+/**
+ * Plain SCSS
+ */
+.hny\/pt {
+  display: none;
+  visibility: hidden;
+  opacity: 0;
+}
+

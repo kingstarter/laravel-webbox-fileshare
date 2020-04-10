@@ -1,0 +1,31 @@
+/**
+ * Tailwind classes
+ */
+@tailwind base;
+@tailwind components;
+
+.appcontainer {
+  @apply w-full max-w-6xl mx-auto shadow-xl border rounded;
+}
+/* Medium (md) */
+@media (min-width: 768px) {
+  .appcontainer {
+    @apply w-4/5;
+  }
+}
+
+.btn {
+  @apply font-bold py-2 px-4 rounded;
+}
+.btn:focus {
+  @apply outline-none shadow-outline;
+}
+
+.form-control {
+  @apply text-center shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight;
+}
+.form-control:focus {
+  @apply outline-none shadow-outline;
+}
+
+@tailwind utilities;
