@@ -4,9 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class SessionController extends Controller
 {
+    private function clearUploadDirectory() {
+        // TODO : currently single session - when someone else logs in, all is deleted
+        Storage::disk('upload')->delete(
+            Storage::disk('upload')->allFiles()
+        );
+    }
+
     public function index()
     {
         return view('login');
@@ -28,6 +36,7 @@ class SessionController extends Controller
         // Use something like env('PIN') here
         if ($request->input('session_pin') === config('app.authpin'))
         {
+            $this->clearUploadDirectory();
             // Do not throttle successful login attempts
             $request->session()->put('authenticated', time());
             return redirect()->route('home');
@@ -43,6 +52,7 @@ class SessionController extends Controller
     public function logout(Request $request)
     {
         $request->session()->put('authenticated', null);
+        $this->clearUploadDirectory();
         return redirect()->route('auth.login');
     }
 }
