@@ -26,7 +26,7 @@ class SessionController extends Controller
         }
 
         // Use something like env('PIN') here
-        if ($request->input('session_pin') === '123456')
+        if ($request->input('session_pin') === config('app.authpin'))
         {
             // Do not throttle successful login attempts
             $request->session()->put('authenticated', time());

@@ -39,17 +39,17 @@ export default {
         method: 'post'
       },
       csrf: null,
-      /** newer ttl after storing files */
-      dropzonettl: 0
+      /** newer session time after storing files */
+      dzSession: 0
     }
   },
 
   computed: {
     countdownTime () {
-      return this.sessiontime
+      return this.dzSession || this.sessiontime
     },
     countdownTtl () {
-      return this.dropzonettl || this.sessionttl
+      return this.sessionttl
     }
   },
 
@@ -60,8 +60,8 @@ export default {
       )
     },
     afterSending (file, response) {
-      console.log(file)
-      console.log(response)
+      let data = Object.assign({ time: 0 }, response)
+      this.dzSession = data.time
     }
   }
 }

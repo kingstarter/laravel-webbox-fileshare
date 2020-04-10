@@ -25,6 +25,7 @@ class UploadController extends Controller
 
         return response()->json([
             'success' => $filename,
+            'time' => intval(session('authenticated')) * 1000,
             'ttl' => $this->getSessionLifetime()
         ]);
     }
