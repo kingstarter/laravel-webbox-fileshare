@@ -3,6 +3,10 @@
 @section('title', __('messages.public.title'))
 
 @section('nav')
+  <span class="pl-8 text-gray-500 cursor-default">
+    <span>Link gültig bis:</span>
+    <span>{{ $endingdate }}</span>
+  </span>
   <span class="float-right">
     <a class="mt-1 px-4 py-3 hover:bg-gray-200 rounded text-teal-800" href="/archive/{{$directory}}" title="@lang('messages.download.zip')">
       <span class="fa fa-long-arrow-alt-down"></span>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Traits\StorageTime;
 use App\Traits\StringAdditions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -9,7 +10,7 @@ use Illuminate\Support\Facades\Storage;
 
 class StorageController extends Controller
 {
-    use StringAdditions;
+    use StringAdditions, StorageTime;
 
     // Static font-awesome mime icons
     private $faMimeIcons = [
@@ -95,10 +96,11 @@ class StorageController extends Controller
             ]);
         }
 
-
         return view('storage')->with([
             'directory' => $dir,
-            'files' => $files
+            'files' => $files,
+            'endingdate' => $this->getStorageTime($dir)
+                ->locale(config('app.locale'))->isoFormat('LL')
         ]);
     }
 

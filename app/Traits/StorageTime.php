@@ -23,6 +23,11 @@ trait StorageTime
         $this->getValueStore()->put($path, now()->add($storageTime)->toJSON());
     }
 
+    private function getStorageTime($path)
+    {
+        return new Carbon($this->getValueStore()->get($path));
+    }
+
     /**
      * Remove a storage path from value store
      */
