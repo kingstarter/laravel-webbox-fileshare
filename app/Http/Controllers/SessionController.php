@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class SessionController extends Controller
@@ -25,11 +24,10 @@ class SessionController extends Controller
         if ($request->input('email_456'))
         {
             // Honeypot is filled
-            sleep(1);   // Throttle for brute-force protection
             $request->session()->put('authenticated', null);
             return view('login', [
                 'status' => 'error',
-                'message' => 'Service derzeit nicht verfügbar, bitte probieren Sie es später erneut.'
+                'message' => __('messages.honeypot.alert.nice')
             ]);
         }
 
@@ -39,13 +37,13 @@ class SessionController extends Controller
             $this->clearUploadDirectory();
             // Do not throttle successful login attempts
             $request->session()->put('authenticated', time());
+            $request->session()->put('sessionid', md5(uniqid()));
             return redirect()->route('home');
         }
 
-        sleep(1);   // Throttle for brute-force protection
         return view('login', [
             'status' => 'error',
-            'message' => 'Falscher Sicherheitscode.'
+            'message' => __('messages.token.alert')
         ]);
     }
 

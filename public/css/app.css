@@ -1115,6 +1115,44 @@ video {
   padding-left: 1rem;
   padding-right: 1rem;
   border-radius: 0.25rem;
+  background-color: #a0aec0;
+  font-weight: 700;
+}
+
+.btn:hover {
+  background-color: #4a5568;
+}
+
+.btn:focus {
+  outline: 0;
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+}
+
+.btn-blue {
+  background-color: #4299e1;
+  color: #fff;
+}
+
+.btn-blue:hover {
+  background-color: #2b6cb0;
+}
+
+.btn-teal {
+  background-color: #38b2ac;
+  color: #fff;
+}
+
+.btn-teal:hover {
+  background-color: #2c7a7b;
+}
+
+.btn {
+  font-weight: 700;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  border-radius: 0.25rem;
 }
 
 .btn:focus {
@@ -1125,9 +1163,6 @@ video {
 .form-control {
   text-align: center;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
   border-width: 1px;
   border-radius: 0.25rem;
   width: 100%;
@@ -1139,9 +1174,19 @@ video {
   line-height: 1.25;
 }
 
+input.form-control {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+}
+
+select.form-control {
+  cursor: pointer;
+  background-color: #fff;
+}
+
 .form-control:focus {
   outline: 0;
-  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
 }
 
 .sr-only {
@@ -73802,4 +73847,11 @@ readers do not read off random characters that represent icons */
   display: none;
   visibility: hidden;
   opacity: 0;
+}
+
+.backdrop {
+  background-color: black;
+  /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4);
+  /* Black w/ opacity */
 }

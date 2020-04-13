@@ -13,7 +13,17 @@ require('laravel-mix-purgecss')
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
+mix.webpackConfig({
+   module: {
+      rules: [
+         {
+            // Matches all PHP or JSON files in `resources/lang` directory.
+            test: /resources[\\\/]lang.+\.(php|json)$/,
+            loader: 'laravel-localization-loader',
+         }
+      ]}
+   })
+   .js('resources/js/app.js', 'public/js')
    .sass('resources/sass/app.scss', 'public/css')
    .copy('./node_modules/@fortawesome/fontawesome-free/webfonts', 'public/webfonts')
    .tailwind('tailwind.config.js')

@@ -11,7 +11,7 @@
     @yield('stylesheets')
 </head>
 
-<body class="bg-gray-100 w-scree h-screen">
+<body class="bg-gray-100">
 
   <!-- navbar -->
   <nav class="absolute top-0 inset-x-0">
@@ -23,7 +23,7 @@
 
   <div class="bg-white appcontainer mt-12 pt-12 px-8">
 
-    <header class="mb-8 text-3xl text-center text-indigo-800">
+    <header class="mb-8 text-3xl text-center text-teal-800">
       @section('title')
         {{ config('app.name') }}
       @show

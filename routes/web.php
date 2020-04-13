@@ -13,11 +13,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/login', 'SessionController@index')->name('auth.login');
-Route::post('/login', 'SessionController@login');
-Route::get('/logout', 'SessionController@logout');
+Route::group(['middleware' => ['web']], function () {
 
-Route::group(['middleware' => ['web', 'pin']], function () {
-    Route::get('/', 'UploadController@index')->name('home');
-    Route::post('/store','UploadController@store');
+    Route::get('/login', 'SessionController@index')->name('auth.login');
+    Route::get('/logout', 'SessionController@logout');
+
+    Route::middleware('throttle:30,1')->group(function () {
+        Route::post('/login', 'SessionController@login');
+    });
+
+    Route::get('/share/{dir}', 'StorageController@index')->name('storage');
+
+    Route::group(['middleware' => ['pin']], function () {
+        Route::get('/', 'UploadController@index')->name('home');
+        Route::post('/upload', 'UploadController@upload');
+        Route::post('/store', 'UploadController@store');
+    });
+
+
 });

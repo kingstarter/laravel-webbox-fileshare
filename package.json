@@ -11,12 +11,14 @@
     },
     "devDependencies": {
         "@fortawesome/fontawesome-free": "^5.13.0",
-        "axios": "^0.19",
+        "axios": "^0.19.2",
         "bootstrap": "^4.0.0",
         "browser-sync": "^2.26.7",
         "browser-sync-webpack-plugin": "^2.0.1",
         "cross-env": "^7.0",
         "jquery": "^3.2",
+        "lang.js": "^2.0.0-beta.1",
+        "laravel-localization-loader": "^1.0.5",
         "laravel-mix": "^5.0.1",
         "laravel-mix-alias": "^1.0.2",
         "laravel-mix-purgecss": "^5.0.0-rc.1",
@@ -27,10 +29,12 @@
         "sass": "^1.20.1",
         "sass-loader": "^8.0.0",
         "vue": "^2.5.17",
+        "vue-axios": "^2.1.5",
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
         "tailwindcss": "^1.2.0",
+        "vue-toastr": "^2.1.2",
         "vue2-dropzone": "^3.6.0"
     }
 }

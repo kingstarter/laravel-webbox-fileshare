@@ -15,6 +15,30 @@
 }
 
 .btn {
+  @apply font-bold py-2 px-4 rounded bg-gray-500 font-bold;
+}
+.btn:hover {
+  @apply bg-gray-700;
+}
+.btn:focus {
+  @apply outline-none shadow-outline;
+}
+
+.btn-blue {
+  @apply bg-blue-500 text-white;
+}
+.btn-blue:hover {
+  @apply bg-blue-700;
+}
+
+.btn-teal {
+  @apply bg-teal-500 text-white;
+}
+.btn-teal:hover {
+  @apply bg-teal-700;
+}
+
+.btn {
   @apply font-bold py-2 px-4 rounded;
 }
 .btn:focus {
@@ -22,10 +46,16 @@
 }
 
 .form-control {
-  @apply text-center shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight;
+  @apply text-center shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight;
+}
+input.form-control {
+  @apply appearance-none;
+}
+select.form-control {
+  @apply cursor-pointer bg-white;
 }
 .form-control:focus {
-  @apply outline-none shadow-outline;
+  @apply outline-none;
 }
 
 @tailwind utilities;
