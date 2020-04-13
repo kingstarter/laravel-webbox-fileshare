@@ -9,8 +9,6 @@ locales.forEach(locale => {
   Object.assign(messages, { [locale]: require('../lang/'+locale+'/messages.php') })
 })
 
-console.log(messages)
-
 const Language = new Lang({
   messages: messages,
   locale: window.config && window.config.defaultLocale ? window.config.defaultLocale : 'en',
