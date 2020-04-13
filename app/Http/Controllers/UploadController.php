@@ -14,6 +14,9 @@ class UploadController extends Controller
 {
     use SessionLifetime, StringAdditions, StorageTime;
 
+    /**
+     * Check all image files and create thumbnails within a subdirectory
+     */
     public function createThumbs($publicPath)
     {
         $fullPath = Storage::disk('public')->getDriver()->getAdapter()->applyPathPrefix($publicPath);
@@ -44,6 +47,9 @@ class UploadController extends Controller
         return true;
     }
 
+    /**
+     * Show uploading page
+     */
     public function index()
     {
         return view('home')->with([
@@ -52,6 +58,9 @@ class UploadController extends Controller
         ]);
     }
 
+    /**
+     * Upload and store a file
+     */
     public function upload(Request $request)
     {
         $file = $request->file('file');
@@ -71,6 +80,9 @@ class UploadController extends Controller
         ]);
     }
 
+    /**
+     * Store uploaded files to public path, return back shared directory
+     */
     public function store(Request $request)
     {
         $sessId = $request->session()->get('sessionid');

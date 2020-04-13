@@ -7,21 +7,21 @@ use Illuminate\Support\Facades\Storage;
 
 class SessionController extends Controller
 {
-    private function clearUploadDirectory() {
-        // TODO : currently single session - when someone else logs in, all is deleted
-        Storage::disk('upload')->delete(
-            Storage::disk('upload')->allFiles()
-        );
-    }
-
+    /**
+     * Show login screen
+     */
     public function index()
     {
         return view('login');
     }
 
+    /**
+     * Generic pin session login
+     */
     public function login(Request $request)
     {
-        if ($request->input('email_456'))
+        // Honeypot
+        if (config('webbox.honeypot_enabled') && $request->input(config('webbox.honeypot_field')))
         {
             // Honeypot is filled
             $request->session()->put('authenticated', null);
@@ -32,9 +32,8 @@ class SessionController extends Controller
         }
 
         // Use something like env('PIN') here
-        if ($request->input('session_pin') === config('app.authpin'))
+        if ($request->input('session_pin') === config('webbox.authpin'))
         {
-            $this->clearUploadDirectory();
             // Do not throttle successful login attempts
             $request->session()->put('authenticated', time());
             $request->session()->put('sessionid', md5(uniqid()));
@@ -47,10 +46,16 @@ class SessionController extends Controller
         ]);
     }
 
+    /**
+     * Logout session cleanup
+     */
     public function logout(Request $request)
     {
+        // Remove upload directory (also handled by scheduler)
+        Storage::disk('upload')->deleteDirectory($request->session()->get('sessionid'));
+        // Remove authenticated timestamp
         $request->session()->put('authenticated', null);
-        $this->clearUploadDirectory();
+        // Redirect to login screen
         return redirect()->route('auth.login');
     }
 }

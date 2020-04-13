@@ -25,8 +25,10 @@ return [
     'link.copy'           => 'Copy URL',
     'link.copied'         => 'Copied URL to clipboard',
     'link.open'           => 'Open',
+    'link.valid.date'     => 'Link valid until',
     'download'            => 'Download',
     'download.zip'        => 'Download ZIP archive',
+    'download.zip.err'    => 'Failed creating ZIP archive',
 
     'dz.default.msg'      => 'Drop files here for upload',
 ];

@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Traits\StorageTime;
 use App\Traits\StringAdditions;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use ZipArchive;
 
 class StorageController extends Controller
 {
@@ -30,6 +30,9 @@ class StorageController extends Controller
         'unknown'       => 'file',
     ];
 
+    /**
+     * Select font awesome public icon based on mime type
+     */
     private function selectMimeIcon($mime)
     {
         if ($this->startsWith($mime, 'text'))
@@ -70,6 +73,9 @@ class StorageController extends Controller
             return $this->faMimeIcons['video'];
     }
 
+    /**
+     * Index : public storage page
+     */
     public function index(String $dir)
     {
         $files = [];
@@ -104,4 +110,36 @@ class StorageController extends Controller
         ]);
     }
 
+    /**
+     * Generate storage zip archive for download containing full directory
+     */
+    public function archive(String $dir)
+    {
+        $zip = new ZipArchive;
+        // $filename = 'archive_'.str_replace(' ', '-', now()->toDateTimeString()).'.zip';
+        $basepath = $dir."/archive";
+        if (!Storage::disk('public')->exists($basepath))
+            Storage::disk('public')->makeDirectory($basepath);
+        $path = $basepath . '/archive.zip';
+
+        // Check if
+        if (!Storage::disk('public')->exists($path))
+        {
+            // Zip not yet created, generate
+            $realpath = Storage::disk('public')->getDriver()->getAdapter()->applyPathPrefix($path);
+            if ($zip->open($realpath, ZipArchive::CREATE) === TRUE)
+            {
+                foreach (Storage::disk('public')->files($dir) as $file)
+                {
+                    $filepath = Storage::disk('public')->getDriver()->getAdapter()->applyPathPrefix($file);
+                    $zip->addFile($filepath, 'archive/'.File::basename($file));
+                }
+                $zip->close();
+            }
+        }
+
+        return Storage::disk('public')->exists($path) ?
+            Storage::disk('public')->download($path) :
+            response(__('messages.download.zip.err'), 500);
+    }
 }

@@ -4,7 +4,7 @@
 
 @section('nav')
   <span class="pl-8 text-gray-500 cursor-default">
-    <span>Link gültig bis:</span>
+    <span>@lang('messages.link.valid.date'):</span>
     <span>{{ $endingdate }}</span>
   </span>
   <span class="float-right">

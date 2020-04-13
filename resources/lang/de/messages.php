@@ -25,8 +25,10 @@ return [
     'link.copy'           => 'URL kopieren',
     'link.copied'         => 'URL in Zwischenablage kopiert',
     'link.open'           => 'Öffnen',
+    'link.valid.date'     => 'Link gültig bis',
     'download'            => 'Herunterladen',
     'download.zip'        => 'ZIP Archiv herunterladen',
+    'download.zip.err'    => 'ZIP Archiv konnte nicht erstellt werden',
 
     'dz.default.msg'      => 'Dateien zum hochladen hier abwerfen',
 ];

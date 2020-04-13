@@ -23,6 +23,7 @@ Route::group(['middleware' => ['web']], function () {
     });
 
     Route::get('/share/{dir}', 'StorageController@index')->name('storage');
+    Route::get('/archive/{dir}', 'StorageController@archive');
 
     Route::group(['middleware' => ['pin']], function () {
         Route::get('/', 'UploadController@index')->name('home');

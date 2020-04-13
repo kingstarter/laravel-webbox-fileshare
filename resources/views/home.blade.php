@@ -16,7 +16,7 @@
       ],
       defaultStorageTime: '1 month',
       defaultLocale: '{{ config('app.locale') }}',
-      maxFilesize: {{ config('app.max_filesize') }}
+      maxFilesize: {{ config('webbox.max_filesize') }}
     }
   </script>
   <script src="{{asset('js/app.js')}}"></script>
