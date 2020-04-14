@@ -24,7 +24,7 @@
         @if($fobj['ispicture'])
           {{-- Modal overlay link for image files --}}
           <span onclick="previewImage('{{ $fobj['url'] }}')"
-            class="absolute inset-0 hover:bg-gray-700 opacity-25 z-10">
+            class="absolute inset-0 hover:bg-gray-700 opacity-25 z-10 cursor-pointer">
           </span>
         @else
           {{-- Download overlay link for normal files --}}
@@ -38,8 +38,8 @@
             <img class="object-contain h-40 mb-4 p-4 mx-auto" title="{{ $fobj['basename'] }}" src="{{ $fobj['image'] }}" alt="{{ $fobj['basename'] }}" />
           @else
             <span class="fa-stack fa-4x pt-4 text-teal-800">
-              <i class="fas fa-circle fa-stack-2x"></i>
-              <i class="fas fa-{{ $fobj['icon'] }} fa-stack-1x fa-inverse"></i>
+              <i class="fa fa-circle fa-stack-2x"></i>
+              <i class="fa fa-{{ $fobj['icon'] }} fa-stack-1x fa-inverse"></i>
             </span>
           @endif
         </div>

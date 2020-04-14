@@ -53,13 +53,6 @@ class StorageController extends Controller
             }
         }
 
-        // For images with missing thumbnails
-        if ($this->startsWith($mime, 'image'))
-        {
-            return $this->faMimeIcons['image'];
-        }
-
-
         if ($this->startsWith($mime, 'application'))
         {
             if ($this->contains($mime, 'word') || $this->contains($mime, 'text'))
@@ -79,6 +72,10 @@ class StorageController extends Controller
 
         if ($this->startsWith($mime, 'video'))
             return $this->faMimeIcons['video'];
+
+        // For images with missing thumbnails
+        if ($this->startsWith($mime, 'image'))
+            return $this->faMimeIcons['image'];
     }
 
     /**

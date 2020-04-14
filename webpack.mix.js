@@ -28,7 +28,7 @@ mix.webpackConfig({
    .copy('./node_modules/@fortawesome/fontawesome-free/webfonts', 'public/webfonts')
    .tailwind('tailwind.config.js')
    .purgeCss({
-      whitelistPatterns: [/-active$/, /-enter$/, /-leave-to$/, /dropzone/, /^dz-/]
+      whitelistPatterns: [/-active$/, /-enter$/, /-leave-to$/, /dropzone/, /^dz-/, /^fa-file/]
    })
    .setPublicPath('public')
    .browserSync('http://localhost:8000');
