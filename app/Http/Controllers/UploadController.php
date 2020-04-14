@@ -8,6 +8,7 @@ use App\Traits\StringAdditions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Exception\NotReadableException;
 use Intervention\Image\Facades\Image;
 
 class UploadController extends Controller
@@ -36,11 +37,16 @@ class UploadController extends Controller
 
             if ($this->startsWith($mime, "image") && !Storage::disk('public')->exists($thumbPath . "/" . $name))
             {
-                // Create thumb of image and store beside it
-                Image::make($path)
-                    ->widen   (300, function($constraint) { $constraint->upsize(); })
-                    ->heighten(300, function($constraint) { $constraint->upsize(); })
-                    ->save(File::dirname($path) . "/thumbs/" . $name);
+                try {
+                    // Create thumb of image and store beside it
+                    Image::make($path)
+                        ->widen   (300, function($constraint) { $constraint->upsize(); })
+                        ->heighten(300, function($constraint) { $constraint->upsize(); })
+                        ->save(File::dirname($path) . "/thumbs/" . $name);
+                } catch (NotReadableException $e) {
+                    // Skip file
+                    continue;
+                }
             }
         }
 

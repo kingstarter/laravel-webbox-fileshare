@@ -21,6 +21,7 @@ class StorageController extends Controller
         'excel'         => 'file-excel',
         'file'          => 'file',
         'folder'        => 'folder',
+        'image'         => 'file-image',
         'pdf'           => 'file-pdf',
         'powerpoint'    => 'file-powerpoint',
         'text'          => 'file-alt',
@@ -51,6 +52,13 @@ class StorageController extends Controller
                     return $this->faMimeIcons['unknown'];
             }
         }
+
+        // For images with missing thumbnails
+        if ($this->startsWith($mime, 'image'))
+        {
+            return $this->faMimeIcons['image'];
+        }
+
 
         if ($this->startsWith($mime, 'application'))
         {
@@ -93,12 +101,14 @@ class StorageController extends Controller
                 Storage::disk('public')->url(File::dirname($file) . "/thumbs/" . File::basename($file)) :
                 null;
 
+            $mime = Storage::disk('public')->mimeType($file);
             array_push($files, [
-                'basename' => $basename,
-                'image' => $image,
-                'icon' => $image == null ? $this->selectMimeIcon(Storage::disk('public')->mimeType($file)) : null,
-                'url' => Storage::disk('public')->url($file),
-                'mime' => Storage::disk('public')->mimeType($file)
+                'basename'  => $basename,
+                'image'     => $image,
+                'icon'      => $image == null ? $this->selectMimeIcon(Storage::disk('public')->mimeType($file)) : null,
+                'url'       => Storage::disk('public')->url($file),
+                'mime'      => $mime,
+                'ispicture' => $this->startsWith($mime, 'image'),
             ]);
         }
 

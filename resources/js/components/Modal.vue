@@ -4,7 +4,7 @@
     <div class="modal fixed flex z-20 top-0 left-0 w-full h-full overflow-auto backdrop justify-around pt-6 sm:pt-12 md:pt-32"
       v-if="show" @click.prevent="handleClick">
 
-      <div class="modal-container bg-white w-3/5 max-w-md h-48 shadow" @click.prevent="handleClick">
+      <div class="modal-container bg-white w-full sm:w-4/5 md:w-3/5 max-w-md h-64 sm:h-56 md:h-48 shadow" @click.prevent="handleClick">
 
         <!-- Add margin if you want to see some of the overlay behind the modal-->
         <div class="modal-content py-4 text-left px-6">
@@ -20,15 +20,15 @@
           </div>
 
           <!--Body-->
-          <div class="w-full p-3 border rounded shadow bg-gray-100 truncate" v-text="url"></div>
+          <div class="w-full p-3 border rounded shadow bg-gray-100 truncate mb-4 sm:mb-3 md:mb-0" v-text="url"></div>
 
           <!-- footer -->
-          <div class="w-full flex justify-around p-5">
-            <button class="btn btn-teal w-40 text-center" @click="copyToClipboard">
+          <div class="w-full flex justify-around py-5 px-0 sm:px-2 md:px-5">
+            <button class="btn btn-teal w-40 text-center mr-2" @click="copyToClipboard">
               <span class="fa fa-copy"></span>
               <span v-trans="'link.copy'"></span>
             </button>
-            <button class="btn btn-teal w-40 text-center" @click="openPath">
+            <button class="btn btn-teal w-40 text-center ml-2" @click="openPath">
               <span class="fa fa-external-link-alt"></span>
               <span v-trans="'link.open'"></span>
             </button>
