@@ -10,7 +10,7 @@ return [
     'honeypot.email'      => 'Fake email field for bots. Please do not fill.',
     'honeypot.alert.nice' => 'Service currenctly unavailable, please try again later.',
 
-    'public.title'        => 'Geteilte Dateien',
+    'public.title'        => 'Shared files',
     'storage.lifetime'    => 'File lifetime',
 
     'email.placeholder'   => 'Enter email...',
