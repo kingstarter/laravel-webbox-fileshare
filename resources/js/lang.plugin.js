@@ -13,6 +13,13 @@ plugin.install = function (Vue, options) {
   }
 
   /**
+   * Global translate pluralization method
+   */
+  Vue.prototype.$choice = (key, count) => {
+    return Lang.choice(key, count)
+  }
+
+  /**
    * v-trans directive
    */
   Vue.directive('trans', {

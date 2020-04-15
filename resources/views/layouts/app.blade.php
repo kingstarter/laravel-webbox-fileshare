@@ -33,11 +33,19 @@
       @yield('content')
     </main>
 
+    @if(config('webbox.footer_text'))
     <footer class="mt-12 mb-4">
-      <p class="text-center text-gray-500 text-xs">
-        &#169; 2020 KingStarter GbR
+      <p class="text-center text-gray-500 text-xs italic">
+        @if(config('webbox.footer_link'))
+        <a href="{{ config('webbox.footer_link') }}" target="_blank">
+          {!! config('webbox.footer_text') !!}
+        </a>
+        @else
+        {!! config('webbox.footer_text') !!}
+        @endif
       </p>
     </footer>
+    @endif
 
   </div>
 

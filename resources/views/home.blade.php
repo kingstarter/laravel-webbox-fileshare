@@ -3,20 +3,11 @@
 @section('scripts')
   <script type="text/javascript">
     window.config = {
-      storageTimes: [
-        { value: '1 day',    label: '1 @lang('messages.time.day')' },
-        { value: '2 days',   label: '2 @lang('messages.time.days')' },
-        { value: '3 days',   label: '3 @lang('messages.time.days')' },
-        { value: '1 week',   label: '1 @lang('messages.time.week')' },
-        { value: '2 weeks',  label: '2 @lang('messages.time.weeks')' },
-        { value: '1 month',  label: '1 @lang('messages.time.month')' },
-        { value: '2 months', label: '2 @lang('messages.time.months')' },
-        { value: '3 months', label: '3 @lang('messages.time.months')' },
-        { value: '1 year',   label: '1 @lang('messages.time.year')' },
-      ],
-      defaultStorageTime: '1 month',
+      storageTimes: {!! json_encode(config('webbox.storage_lifetime')) !!},
+      defaultStorageTime: '{{ config('webbox.default_lifetime') }}',
       defaultLocale: '{{ config('app.locale') }}',
-      maxFilesize: {{ config('webbox.max_filesize') }}
+      maxFilesize: {{ intval(config('webbox.max_filesize')) }},
+      mailEnabled: {{ json_encode(boolval(config('mail.default'))) }}
     }
   </script>
   <script src="{{asset('js/app.js')}}"></script>

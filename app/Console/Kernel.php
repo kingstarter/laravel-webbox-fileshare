@@ -25,9 +25,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // Cleanup old upload directories
-        $schedule->command('upload:cleanup')->hourly();
+        $schedule->command('upload:cleanup')->everyFifteenMinutes();
         // Cleanup old storage directories
-        $schedule->command('storage:cleanup')->hourly();
+        $schedule->command('storage:cleanup')->everyFifteenMinutes();
     }
 
     /**

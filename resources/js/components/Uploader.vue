@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="absolute top-0 pt-3 text-gray-500 cursor-default">
-      <span v-trans.colon="'session.ending'">Ablauf der Session: </span>
+      <span v-trans.colon="'session.ending'"></span>
       <countdown :global=true :time=countdownTime :duration=countdownTtl></countdown>
     </div>
 
@@ -13,17 +13,19 @@
 
     <div class="flex w-full justify-end mt-5">
       <label class="mr-3">
-        <span class="mr-1" v-trans.colon="'storage.lifetime'">Speicherdauer:</span>
-        <select class="form-control w-32" v-model="storageTimeValue">
-          <option v-for="item in storageTimeItems" :key="item.value" :value="item.value" v-text="item.label"></option>
-        </select>
+        <span class="mr-1" v-trans.colon="'storage.lifetime'"></span>
+        <select-lifetime class="form-control w-32" v-model="storageTimeValue"></select-lifetime>
       </label>
       <button class="btn btn-teal" :class="btnClsDisabled" @click="submitStore"
         :disabled="!dzHasElements"
-        v-trans="'store'">Alles speichern</button>
+        v-trans="'store'"></button>
     </div>
 
-    <modal :show=showModal :url="urlLink" :title="$trans('link.generated')"
+    <modal
+      :show=showModal
+      :url="urlLink"
+      :title="$trans('link.generated')"
+      :withmail="mailEnabled"
       @close="showModal = false">
     </modal>
   </div>
@@ -32,13 +34,15 @@
 <script>
 import vue2Dropzone from 'vue2-dropzone'
 import Modal from './Modal'
+import SelectLifetime from './SelectLifetime'
 
 export default {
   name: 'uploader',
 
   components: {
     vueDropzone: vue2Dropzone,
-    modal: Modal
+    modal: Modal,
+    selectLifetime: SelectLifetime
   },
 
   props: {
@@ -51,7 +55,7 @@ export default {
       dropzoneOptions: {
         url: '/upload',
         thumbnailWidth: 150,
-        maxFilesize: 2,
+        maxFilesize: 256,
         headers: {},
         method: 'post',
         dictDefaultMessage: this.$trans('dz.default.msg')
@@ -61,20 +65,10 @@ export default {
       dzSession: 0,
       dzHasElements: false,
       showModal: false,
-      storageTimeItems: [
-        { value: '1 day',    label: '1 day' },
-        { value: '2 days',   label: '2 days' },
-        { value: '3 days',   label: '3 days' },
-        { value: '1 week',   label: '1 week' },
-        { value: '2 weeks',  label: '2 weeks' },
-        { value: '1 month',  label: '1 month' },
-        { value: '2 months', label: '2 months' },
-        { value: '3 months', label: '3 months' },
-        { value: '1 year',   label: '1 year' },
-      ],
       storageTimeValue: '',
       csrf: null,
-      urlLink: ''
+      urlLink: '',
+      mailEnabled: false
     }
   },
 
@@ -84,12 +78,13 @@ export default {
   },
 
   mounted () {
-    let storageTimes = window.config && window.config.storageTimes ? window.config.storageTimes : null
-    if (typeof storageTimes === 'object' && storageTimes.length)
-      this.storageTimeItems = storageTimes
+    let config = Object.assign({
+      defaultStorageTime: '',
+      mailEnabled: false
+    }, window.config)
 
-    this.storageTimeValue = window.config && window.config.defaultStorageTime ?
-      window.config.defaultStorageTime : this.storageTimeItems[0].value
+    this.storageTimeValue = config.defaultStorageTime
+    this.mailEnabled = config.mailEnabled
   },
 
   computed: {

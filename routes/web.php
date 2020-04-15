@@ -29,6 +29,7 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('/', 'UploadController@index')->name('home');
         Route::post('/upload', 'UploadController@upload');
         Route::post('/store', 'UploadController@store');
+        Route::post('/sendmail', 'UploadController@sendmail');
     });
 
 

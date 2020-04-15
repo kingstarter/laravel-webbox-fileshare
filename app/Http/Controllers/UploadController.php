@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\SharedLink;
 use App\Traits\SessionLifetime;
 use App\Traits\StorageTime;
 use App\Traits\StringAdditions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Exception\NotReadableException;
 use Intervention\Image\Facades\Image;
@@ -117,5 +119,20 @@ class UploadController extends Controller
             'ttl' => $this->getSessionLifetime(),
             'url' => 'share/'.$sessId
         ]);
+    }
+
+    /**
+     * Send an email with the given session id as link
+     */
+    public function sendmail(Request $request)
+    {
+        $sessId = $request->session()->get('sessionid');
+        Mail::to($request->input('email'))
+          ->send(new SharedLink(
+            $sessId,
+            $this->getStorageTime($sessId)->isoFormat('LLLL')
+          ));
+
+        return response()->json(['success' => true]);
     }
 }
