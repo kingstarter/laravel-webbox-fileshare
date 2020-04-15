@@ -130,7 +130,7 @@ class UploadController extends Controller
         Mail::to($request->input('email'))
           ->send(new SharedLink(
             $sessId,
-            $this->getStorageTime($sessId)->isoFormat('LLLL')
+            $this->getStorageTime('share/'.$sessId)->isoFormat('LLLL')
           ));
 
         return response()->json(['success' => true]);
