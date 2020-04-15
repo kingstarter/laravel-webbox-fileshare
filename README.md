@@ -2,6 +2,8 @@
 
 Webbox Fileshare is a [Laravel 7.x app](https://laravel.com/docs/7.x) for uploading a set of files and generating a randomized, shared link to the files. It is kind of a web-dropbox. The app runs __without any database__.
 
+![Webbox preview](PREVIEW.png?raw=true "Webbox preview")
+
 __Table of contents__
 
 - [Main Features](#main-features)
@@ -16,6 +18,8 @@ __Table of contents__
 - Simple authentication via a security pin with possible honeypot protection
 - Uploading files via [Vue.js](https://vuejs.org/) and [Dropzone.js](https://www.dropzonejs.com/)
 - Generation of random storage links using MD5 hashes
+- Public shared file page with image preview, single file download and zip-download of all files
+- [Fontawesome](https://fontawesome.com/) file icons for corresponding mime types on shared file pages
 - Scheduled storage cleanup routines
 - Configurable cleanup frequencies for storage links, e.g. storing for 1 month
 - Mail support to share the generated link
