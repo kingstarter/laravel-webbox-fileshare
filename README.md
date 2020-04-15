@@ -1,79 +1,75 @@
-<p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
+# Webbox Fileshare
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+Webbox Fileshare is a [Laravel 7.x app](https://laravel.com/docs/7.x) for uploading a set of files and generating a randomized, shared link to the files. It is kind of a web-dropbox. The app runs __without any database__.
 
-## About Laravel
+## Main Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- Simple authentication via a security pin with possible honeypot protection
+- Uploading files via [Vue.js](https://vuejs.org/) and [Dropzone.js](https://www.dropzonejs.com/)
+- Generation of random storage links using MD5 hashes
+- Scheduled storage cleanup routines
+- Configurable cleanup frequencies for storage links, e.g. storing for 1 month
+- Mail support to share the generated link
+- Localization (currently english and german)
+- No Database
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Installation
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+1. Clone or download repository
+1. Install composer packages (production optimized)
+1. Generate app key and storage link
+1. Change directory permissions
+1. Configure cron scheduling
+1. Configure `.env` file and webserver
+1. Optimize routes, config-cache, views
 
-## Learning Laravel
+_Download and store webbox-fileshare to `/var/www/box`_
+```
+# Download from master
+cd /tmp
+wget -c https://github.com/kingstarter/laravel-webbox-fileshare/archive/master.tar.gz -O -
+mv laravel-webbox-fileshare-master /var/www/box
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+# Basic configuration
+cd /var/www/box
+cp .env.example .env
+composer install --optimize-autoloader --no-dev
+php artisan key:generate
+php artisan storage:link
+chown -R www-data public storage
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+# Cron scheduler
+CRONFILE=/etc/cron.d/webbox
+[ -f $CRONFILE ] && cp $CRONFILE $CRONFILE.bak
+echo "# Run laravel webbox fileshare scheduler" > $CRONFILE
+echo "SHELL=/bin/sh" >> $CRONFILE
+echo "* * * * * cd /var/www/box && php artisan schedule:run >> /dev/null 2>&1" >> $CRONFILE
+```
+Note: App configurations and optimzations are not included in the above script.
 
-## Laravel Sponsors
+## Configuration options
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+Most important configurations can be handled via the `.env` file, see `.env.example`. The main application configuration is stored within `config/webbox.php`.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
-- [Hyper Host](https://hyper.host)
-- [Appoly](https://www.appoly.co.uk)
-- [OP.GG](https://op.gg)
-- [云软科技](http://www.yunruan.ltd/)
+### Webbox `.env` configurations
 
-## Contributing
+| .env option | Description | Default value |
+|---|---|---|---|
+| APP_LOCALE | Localization to use. Short language code should be used, e.g. 'en' / 'de'. | en |
+| APP_AUTH_PIN | General security pin | passw0rd! |
+| SESSION_LIFETIME | Session lifetime in seconds. | 1800 |
+| HONEYPOT_ENABLED | Activate honeypot field on login screen | true |
+| HONEYPOT_FIELD | Honeypot field name for form input. Should contain a known field name and some random chars. | phone_number_4f3dx |
+| MAX_FILESIZE_MB | Maximum allowed file size in megabytes. Should match also php and webserver config. | 256 |
+| FOOTER_TEXT | App footer text to display in main application. No footer if text is empty. Can also contain HTML codes. | &amp;#169; 2020 powered by KingStarter GbR |
+| FOOTER_LINK | a-href link used for footer-text | https://kingstarter.de |
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Additional webbox configurations
 
-## Code of Conduct
+Beside the `.env` options, the selectable storage lifetime (select-field on upload page) can be configured within the `config/webbox.php` file. The `storage_lifetime` array has some predefined values that are all Carbon-compatible (simple strings for adding to time-values).
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+The `default_lifetime` config option should match one of the given `storage_lifetime` fields, e.g. _1 month_.
 
-## Security Vulnerabilities
+### Adding mail support
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+The upload page allows sending emails with the generated storage link. The send-email field on the modal will only appear if a mail driver is configured. Per default, the mail driver field is set to `null` for deactivating sending emails.
