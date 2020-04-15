@@ -129,8 +129,8 @@ class UploadController extends Controller
         $sessId = $request->session()->get('sessionid');
         Mail::to($request->input('email'))
           ->send(new SharedLink(
-            $sessId,
-            $this->getStorageTime('share/'.$sessId)->isoFormat('LLLL')
+            'share/'.$sessId,
+            $this->getStorageTime($sessId)->isoFormat('LLLL')
           ));
 
         return response()->json(['success' => true]);
