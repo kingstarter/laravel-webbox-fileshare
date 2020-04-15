@@ -2,6 +2,15 @@
 
 Webbox Fileshare is a [Laravel 7.x app](https://laravel.com/docs/7.x) for uploading a set of files and generating a randomized, shared link to the files. It is kind of a web-dropbox. The app runs __without any database__.
 
+__Table of contents__
+
+- [Main Features](#main-features)
+- [Installation](#installation)
+- [Configuration options](#configuration-options)
+  + [Webbox `.env` configurations](#webbox--env--configurations)
+  + [Additional webbox configurations](#additional-webbox-configurations)
+  + [Adding mail support](#adding-mail-support)
+
 ## Main Features
 
 - Simple authentication via a security pin with possible honeypot protection
@@ -54,7 +63,7 @@ Most important configurations can be handled via the `.env` file, see `.env.exam
 ### Webbox `.env` configurations
 
 | .env option | Description | Default value |
-|---|---|---|---|
+| ----------- | ----------- | ------------- |
 | APP_LOCALE | Localization to use. Short language code should be used, e.g. 'en' / 'de'. | en |
 | APP_AUTH_PIN | General security pin | passw0rd! |
 | SESSION_LIFETIME | Session lifetime in seconds. | 1800 |
@@ -63,6 +72,7 @@ Most important configurations can be handled via the `.env` file, see `.env.exam
 | MAX_FILESIZE_MB | Maximum allowed file size in megabytes. Should match also php and webserver config. | 256 |
 | FOOTER_TEXT | App footer text to display in main application. No footer if text is empty. Can also contain HTML codes. | &amp;#169; 2020 powered by KingStarter GbR |
 | FOOTER_LINK | a-href link used for footer-text | https://kingstarter.de |
+
 
 ### Additional webbox configurations
 
