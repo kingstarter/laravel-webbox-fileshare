@@ -76,6 +76,9 @@ class StorageController extends Controller
         // For images with missing thumbnails
         if ($this->startsWith($mime, 'image'))
             return $this->faMimeIcons['image'];
+
+        // Unknown
+        return $this->faMimeIcons['unknown'];
     }
 
     /**
