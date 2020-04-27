@@ -42,9 +42,6 @@ class StorageCleanup extends Command
      */
     public function handle()
     {
-        // Current timestamp in seconds
-        $now = now();
-
         // Force option
         $force = $this->option('force');
 

@@ -38,13 +38,16 @@ __Table of contents__
 
 _Download and store webbox-fileshare to `/var/www/box`_
 ```
+# Set public path
+WEBPATH=/var/www/box
+
 # Download from master
 cd /tmp
 wget -c https://github.com/kingstarter/laravel-webbox-fileshare/archive/master.tar.gz -O -
-mv laravel-webbox-fileshare-master /var/www/box
+mv laravel-webbox-fileshare-master $WEBPATH
 
 # Basic configuration
-cd /var/www/box
+cd $WEBPATH
 cp .env.example .env
 composer install --optimize-autoloader --no-dev
 php artisan key:generate
@@ -56,9 +59,37 @@ CRONFILE=/etc/cron.d/webbox
 [ -f $CRONFILE ] && cp $CRONFILE $CRONFILE.bak
 echo "# Run laravel webbox fileshare scheduler" > $CRONFILE
 echo "SHELL=/bin/sh" >> $CRONFILE
-echo "* * * * * cd /var/www/box && php artisan schedule:run >> /dev/null 2>&1" >> $CRONFILE
+echo "* * * * * www-data /usr/bin/php $WEBPATH/artisan schedule:run >> /dev/null 2>&1" >> $CRONFILE
 ```
-Note: App configurations and optimzations are not included in the above script.
+Note: App configurations and optimizations are not included in the script above.
+
+### Test scheduler is called by cron
+
+Normally adding a crontab file to `/etc/cron.d/` should work without any problems, yet in some cases the system seems not to load the file properly.
+To test that the cronjob is called, simply add following line for testing purposes:
+
+```
+WEBPATH=/var/www/box
+CRONFILE=/etc/cron.d/webbox
+
+# Minutely log a timestamp into /tmp/webbox-test-cron.log
+echo "* * * * * www-data /usr/bin/php $WEBPATH/artisan cron:test > /tmp/webbox-test-cron.log" >> $CRONFILE
+```
+
+The cronjob works as expected if the logfile `/tmp/webbox-test-cron.log` is created (after a minute) and contains a current local or UTC timestamp. In case the cronjob is not loaded, it might be helpful to move the cron command to `/etc/crontab`:
+
+```
+WEBPATH=/var/www/box
+CRONFILE=/etc/cron.d/webbox
+CRONTAB=/etc/crontab
+
+# Remove cronfile and move to crontab
+rm -f $CRONFILE
+echo "* * * * * www-data /usr/bin/php $WEBPATH/artisan schedule:run >> /dev/null 2>&1" >> $CRONTAB
+
+# Testing crontab is working
+echo "* * * * * www-data /usr/bin/php $WEBPATH/artisan cron:test > /tmp/webbox-test-cron.log" >> $CRONTAB
+```
 
 ## Configuration options
 
@@ -87,3 +118,5 @@ The `default_lifetime` config option should match one of the given `storage_life
 ### Adding mail support
 
 The upload page allows sending emails with the generated storage link. The send-email field on the modal will only appear if a mail driver is configured. Per default, the mail driver field is set to `null` for deactivating sending emails.
+
+To add mail support, the mail configuration in the `.env` file needs to be filled. Simplest configuration would be using `MAIL_MAILER=smtp` as driver. For other possibilities, please refer to the [laravel documentation](https://laravel.com/docs/7.x/mail).

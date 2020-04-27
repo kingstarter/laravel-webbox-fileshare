@@ -11,6 +11,7 @@
     <a class="mt-1 px-4 py-3 hover:bg-gray-200 rounded text-teal-800" href="/archive/{{$directory}}" title="@lang('messages.download.zip')">
       <span class="fa fa-long-arrow-alt-down"></span>
       <span class="fa fa-file-archive"></span>
+      <span>ZIP</span>
     </a>
   </span>
 @endsection
